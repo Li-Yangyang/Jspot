@@ -1,0 +1,8 @@
+name = "Jspot"
+uuid = "8573a212-7669-4580-92a2-bc18056681b9"
+authors = ["Li-Yangyang <lyy0731@mail.ustc.edu.cn>"]
+version = "0.1.0"
+
+[deps]
+ConfParser = "88353bc9-fd38-507d-a820-d3b43837d6b9"
+Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
