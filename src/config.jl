@@ -176,4 +176,4 @@ function conf_spotmodel(filename::String, t::Array{Float64,1}; ap_evo=true)
     differential = Differential(omega_eq, diffrot)
 
     return [SpotModel, differential]
-    
+end    
