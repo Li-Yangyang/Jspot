@@ -1,4 +1,6 @@
 include("limbdarkening.jl")
+using Distributions
+
 abstract type Spot end
 
 mutable struct RotationSpot<:Spot
@@ -19,14 +21,18 @@ mutable struct RotationSpot<:Spot
 end
 
 function calci(SpotModel::Spot, t::Array{Float64,1}, index::Int)
+    lifetime = SpotModel.decay    
+
     amax = SpotModel.amax[index]
     area = ones(size(t)[1]) * amax
-    if (SpotModel.pk[index] != 0) * (SpotModel.decay[index] != 0)
+    if (SpotModel.pk[index] != 0) * (SpotModel.decay[index] != 0)#use linearly evolution
         tt = t .- SpotModel.pk[index]
-        l = tt .< 0
-        area[l] .*= exp.(-tt[l].^2 ./ 10.0 ./ SpotModel.decay[index].^2)
-        l = tt .>= 0
-        area[l] .*= exp.(-tt[l].^2 ./ 2.0 / SpotModel.decay[index].^2)
+    	l = tt .< 0
+    	area[l] .*= (3 * SpotModel.amax[index] / SpotModel.decay[index]) .* tt[l] .+ SpotModel.amax[index]
+    	l = tt .>= 0
+    	area[l] .*= (-3 / 2 * SpotModel.amax[index] / SpotModel.decay[index]) .* tt[l] .+ SpotModel.amax[index]
+    	l = area .< 0
+    	area[l] .= 0
     end
     #Fore-shortening
     lon = 2 * pi .* t ./ SpotModel.period[index] .+ SpotModel.phase[index]
@@ -64,6 +70,7 @@ function calc(SpotModel::Spot, t::Array{Float64,1})
     dF = Array{Float64}(undef, M, N)
     dRV = Array{Float64}(undef, M, N)
     BIS = Array{Float64}(undef, M, N)
+    
     for i in 1:1:M
         dFi, dRVi, BISi = calci(SpotModel, t, i)
         dF[i,:] = dFi

@@ -75,6 +75,19 @@ function simulation(SpotModel::Spot, diagram::Diagram, differential::Differentia
     return dF, dRV, BIS
 end
 
+function simulation(SpotModel::Spot, differential::Differential, t::Array{Float64,1})
+    meanperiod = mean(SpotModel.period)
+    omega = differential.omega_eq .* (1 .- differential.diffrot  .* (sin.(SpotModel.lat)).^2) # quadratic form
+    SpotModel.period = 2 .* pi ./ omega
+    N = size(t)[1]
+    dF, dRV, BIS = calc(SpotModel,t)
+    if comb
+        dF = sum(dF;dims=1)
+        dRV = sum(dRV;dims=1)
+        BIS = sum(BIS;dims=1)
+    end
+    return dF, dRV, BIS
+end
 
 #function singlespot(filename)
 #    spotmodel = conf_spotmodel(filename)

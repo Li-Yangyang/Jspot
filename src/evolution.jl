@@ -11,15 +11,32 @@ struct Differential
     diffrot::Float64
 end
 
-function corrected_lat(diagram::Diagram, t::Float64)
+function sample_lat(diagram::Diagram, t::Float64)
     if (t - diagram.t0) <= 0
-        phase = (t - diagram.t0) / (diagram.cycle * 365.0) % 1
+        phase = (t - diagram.t0) / (diagram.cycle) % 1
         ave_lat = -1.0 * diagram.init_lat * phase
     else
-        phase = (t - diagram.t0) / (diagram.cycle * 365.0) % 1
+        phase = (t - diagram.t0) / (diagram.cycle) % 1
         ave_lat = -1.0 * diagram.init_lat * phase + diagram.init_lat
     end
     BiGaussian = MixtureModel(map(u -> Normal(u, 2.5), [ave_lat, -1.0*ave_lat]))
 
     return rand(BiGaussian)
+end
+
+function sample_lifetime()
+    u = MixtureModel(Uniform.([2/24, 2.0, 11.0], 
+                            [2.0, 11.0, 60.0]),
+                            [0.5, 0.4, 0.1])
+    return rand(u)
+end
+
+function sample_phase(lat::Float64) # TODO: consider the effect of shear force?
+    if lat >= 0
+        binor = MixtureModel(map(u -> Normal(u, 15 * pi / 180), [0, pi]))
+        return rand(binor)
+    else
+        binor = MixtureModel(map(u -> Normal(u, 15 * pi / 180), [pi / 2, 3 * pi / 2]))
+        return rand(binor)
+    end
 end
