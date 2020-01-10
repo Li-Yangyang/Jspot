@@ -116,7 +116,7 @@ function initial_condition(Nspot::Int, step::Float64, t::Array{Float64,1}, diagr
                 append!(temp, floor(Int, 330 * (amax * 100)))
                 append!(decay, lifetime)
                 append!(pk, ti + 1/3 * lifetime)
-                l = corrected_lat(diagram, ti)
+                l = sample_lat(diagram, ti)
                 append!(lat, l)
                 append!(phase, sample_phase(l))
             end
