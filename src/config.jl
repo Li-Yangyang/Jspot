@@ -1,5 +1,5 @@
-using ConfParser
-using Distributions
+#using ConfParser
+#using Distributions
 #include("spot.jl")
 include("evolution.jl")
 
@@ -84,7 +84,7 @@ function initial_condition(Nspot::Int, step::Float64, t::Array{Float64,1}, diagr
         append!(Ngroup, floor(Int, 330 * (amax * 100)))
         append!(decay, lifetime)
         append!(pk, 0 + 1/3 * lifetime)
-        l = corrected_lat(diagram, 0.0)
+        l = sample_lat(diagram, 0.0)
         append!(lat, l)
         append!(phase, sample_phase(l))
     end
