@@ -1,5 +1,5 @@
-#using ConfParser
-#using Distributions
+using ConfParser
+using Distributions
 #include("spot.jl")
 include("evolution.jl")
 
@@ -38,12 +38,7 @@ function conf_spotmodel(filename::String)
         decay = zeros(Number, nspot)
     end
 
-    #amax(maximum filling factor according to lifetime(decay time))
-    if retrieve(conf, "star", "amax", Float64)
-    	amax = ones(Number, nspot) .* retrieve(conf, "star", "amax", Float64)
-    else
-	amax = 1e-4 .* decay
-	end
+    amax = ones(Number, nspot) .* retrieve(conf, "star", "amax", Float64)
 
     if haskey(conf, "diagram")
         t0 = 0
