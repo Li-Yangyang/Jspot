@@ -25,7 +25,7 @@ function simulation(SpotModel::Spot, diagram::Diagram; nper=20, npper=1000, comb
     tmax = meanperiod * nper
     t = Array(tmin:meanperiod/npper:tmax)
     diagram.t0 = rand(t)
-    SpotModel.lat = [corrected_lat(diagram, SpotModel.pk[i]) * DEG2RAD for i in 1:size(SpotModel.pk)[1]]
+    SpotModel.lat = [sample_lat(diagram, SpotModel.pk[i]) * DEG2RAD for i in 1:size(SpotModel.pk)[1]]
     N = size(t)[1]
     dF, dRV, BIS = calc(SpotModel,t)
     if comb
@@ -42,7 +42,7 @@ function simulation(SpotModel::Spot, differential::Differential; nper=20, npper=
     tmin = 0.0
     tmax = meanperiod * nper
     t = Array(tmin:meanperiod/npper:tmax)
-    SpotModel.lat = [corrected_lat(diagram, SpotModel.pk[i]) * DEG2RAD for i in 1:size(SpotModel.pk)[1]]
+    SpotModel.lat = [sample_lat(diagram, SpotModel.pk[i]) * DEG2RAD for i in 1:size(SpotModel.pk)[1]]
     omega = differential.omega_eq .* (1 .- differential.diffrot  .* (sin.(SpotModel.lat)).^2) # quadratic form
     SpotModel.period = 2 .* pi ./ omega
     N = size(t)[1]
@@ -62,7 +62,7 @@ function simulation(SpotModel::Spot, diagram::Diagram, differential::Differentia
     tmax = meanperiod * nper
     t = Array(tmin:meanperiod/npper:tmax)
     diagram.t0 = rand(t)
-    SpotModel.lat = [corrected_lat(diagram, SpotModel.pk[i]) * DEG2RAD for i in 1:size(SpotModel.pk)[1]]
+    SpotModel.lat = [sample_lat(diagram, SpotModel.pk[i]) * DEG2RAD for i in 1:size(SpotModel.pk)[1]]
     omega = differential.omega_eq .* (1 .- differential.diffrot  .* (sin.(SpotModel.lat)).^2) # quadratic form
     SpotModel.period = 2 .* pi ./ omega
     N = size(t)[1]
