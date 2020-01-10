@@ -75,7 +75,7 @@ function simulation(SpotModel::Spot, diagram::Diagram, differential::Differentia
     return dF, dRV, BIS
 end
 
-function simulation(SpotModel::Spot, differential::Differential, t::Array{Float64,1})
+function simulation(SpotModel::Spot, differential::Differential, t::Array{Float64,1}; comb=false)
     meanperiod = mean(SpotModel.period)
     omega = differential.omega_eq .* (1 .- differential.diffrot  .* (sin.(SpotModel.lat)).^2) # quadratic form
     SpotModel.period = 2 .* pi ./ omega
