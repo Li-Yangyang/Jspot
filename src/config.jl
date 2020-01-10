@@ -1,7 +1,7 @@
 #using ConfParser
 #using Distributions
 #include("spot.jl")
-#include("evolution.jl")
+include("evolution.jl")
 
 DEG2RAD = pi / 180.0
 
@@ -41,8 +41,9 @@ function conf_spotmodel(filename::String)
     #amax(maximum filling factor according to lifetime(decay time))
     if retrieve(conf, "star", "amax", Float64)
     	amax = ones(Number, nspot) .* retrieve(conf, "star", "amax", Float64)
-    else 
+    else
 	amax = 1e-4 .* decay
+	end
 
     if haskey(conf, "diagram")
         t0 = 0
@@ -93,7 +94,7 @@ function initial_condition(Nspot::Int, step::Float64, t::Array{Float64,1}, diagr
         append!(phase, sample_phase(l))
     end
     append!(N, sum(Ngroup))
-    
+
     ti = 0.0
     temp = deepcopy(Ngroup)
     while ti <= t[length(t)]
@@ -106,7 +107,7 @@ function initial_condition(Nspot::Int, step::Float64, t::Array{Float64,1}, diagr
         end
         #Ngroup = temp
         #println(Ngroup, temp)
-        
+
         fai0 = 0.5 - diagram.t0 / diagram.cycle
         appearance_rate = 10 * (-0.5 * cos(2 * pi * (ti / diagram.cycle + fai0)) + 0.5) + 0.5
         p = Poisson(appearance_rate * step)
@@ -146,7 +147,7 @@ function conf_spotmodel(filename::String, t::Array{Float64,1}; ap_evo=true)
     conf = readin(filename)
     nspot = retrieve(conf, "spots", "nspot", Int)
     rstar = retrieve(conf, "star", "radius", Float64)
-    
+
     vconv = retrieve(conf, "star", "vconv", Float64)
 
     t0 = rand(t)
@@ -167,13 +168,13 @@ function conf_spotmodel(filename::String, t::Array{Float64,1}; ap_evo=true)
     cfac = ones(Number, Ngroup) .* retrieve(conf, "spots", "cfac", Float64)
     incl = ones(Number, Ngroup) .* (retrieve(conf, "star", "incl", Float64) * DEG2RAD)
     Q = ones(Number, Ngroup) .* retrieve(conf, "spots", "Q", Float64)
-    
+
     SpotModel = RotationSpot(nspot, rstar, period, u, cspot, vconv, cfac,
         amax, pk, decay, phase, incl, lat, Q)
-    
+
     diffrot = retrieve(conf, "spots", "differential", Float64)
     omega_eq = 2 * pi / retrieve(conf, "star", "period", Float64)
     differential = Differential(omega_eq, diffrot)
 
     return [SpotModel, differential]
-end    
+end
