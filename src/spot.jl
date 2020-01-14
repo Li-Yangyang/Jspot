@@ -56,8 +56,8 @@ function calci(SpotModel::Spot, t::Array{Float64,1}, index::Int)
 
     #RV modeling
     veq = 2 * pi * SpotModel.rstar * 6.96e8 / SpotModel.period[index] / 84600.0
-    rv_spot = veq * sin(SpotModel.incl[index]) * cos(SpotModel.lat[index]) .* sin.(lon) .* spot
-    rv_fac = SpotModel.Q[index] * SpotModel.vconv .* mu .* proj
+    rv_spot = veq * sin(SpotModel.incl[index]) * cos(SpotModel.lat[index]) .* sin.(lon) .* dF
+    rv_fac = SpotModel.Q[index] * SpotModel.vconv .* mu  .* dF
     dRV = rv_spot .+ rv_fac
     bis = dRV .* cos.(lon)
 
