@@ -111,7 +111,7 @@ function initial_condition(Nspot::Int, step::Float64, decay_scale::Float64, t::A
         if deltaN != 0
             for i in 1:1:deltaN
                 lifetime = sample_lifetime(decay_scale)
-                amax = 1e-4 * lifetime
+                amax = 1e-4 * lifetime ^ 3
                 append!(Ngroup, floor(Int, 330 * (amax * 100)))
                 append!(temp, floor(Int, 330 * (amax * 100)))
                 append!(decay, lifetime)
