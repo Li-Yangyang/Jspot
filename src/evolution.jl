@@ -27,7 +27,7 @@ end
 function sample_lifetime(decay_scale::Float64)
     u = MixtureModel(Uniform.([2/24*decay_scale, 2.0*decay_scale, 30.0*decay_scale], 
                             [2.0*decay_scale, 30.0*decay_scale, 60.0*decay_scale]),
-                            [0.0, 0.2, 0.8])
+                            [0.0, 0.0, 1.0])
     return rand(u)
 end
 

@@ -24,7 +24,7 @@ function calci(SpotModel::Spot, t::Array{Float64,1}, index::Int)
     lifetime = SpotModel.decay    
 
     amax = SpotModel.amax[index]
-    area = ones(size(t)[1]) * amax
+    area = ones(size(t)[1]) 
     if (SpotModel.pk[index] != 0) * (SpotModel.decay[index] != 0)#use linearly evolution
         tt = t .- SpotModel.pk[index]
     	l = tt .< 0
