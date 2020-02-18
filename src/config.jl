@@ -152,7 +152,7 @@ function conf_spotmodel(filename::String, t::Array{Float64,1}; ap_evo=true)
     decay_scale = retrieve(conf, "spots", "decay_scale", Float64)
     diagram = Diagram(t0, cycle, init_lat)
 
-    N, decay, pk, lat, phase = initial_condition(nspot, step, t, diagram)
+    N, decay, pk, lat, phase = initial_condition(nspot, step, decay_scale, t, diagram)
     amax = decay .* 1e-4
     lat = lat .* DEG2RAD
 
