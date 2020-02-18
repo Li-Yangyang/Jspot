@@ -79,7 +79,7 @@ function initial_condition(Nspot::Int, step::Float64, decay_scale::Float64, t::A
     pk = zeros(0)
     Ngroup = zeros(0)
     while sum(Ngroup) <= Nspot
-        lifetime = sample_lifetime()
+        lifetime = sample_lifetime(decay_scale)
         amax = 1e-4 * lifetime
         append!(Ngroup, floor(Int, 330 * (amax * 100)))
         append!(decay, lifetime)
