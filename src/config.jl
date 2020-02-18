@@ -71,7 +71,7 @@ function conf_spotmodel(filename::String)
     end
 end
 
-function initial_condition(Nspot::Int, step::Float64, t::Array{Float64,1}, diagram::Diagram)
+function initial_condition(Nspot::Int, step::Float64, decay_scale::Float64, t::Array{Float64,1}, diagram::Diagram)
     N = zeros(0)
     decay = zeros(0)
     lat = zeros(0)
@@ -110,7 +110,7 @@ function initial_condition(Nspot::Int, step::Float64, t::Array{Float64,1}, diagr
         #judge how many spot group exist
         if deltaN != 0
             for i in 1:1:deltaN
-                lifetime = sample_lifetime()
+                lifetime = sample_lifetime(decay_scale)
                 amax = 1e-4 * lifetime
                 append!(Ngroup, floor(Int, 330 * (amax * 100)))
                 append!(temp, floor(Int, 330 * (amax * 100)))
@@ -149,6 +149,7 @@ function conf_spotmodel(filename::String, t::Array{Float64,1}; ap_evo=true)
     cycle = retrieve(conf, "diagram", "cycle", Float64)
     init_lat = retrieve(conf, "diagram", "init_lat", Float64)
     step = retrieve(conf, "diagram", "step", Float64)
+    decay_scale = retrieve(conf, "spots", "decay_scale", Float64)
     diagram = Diagram(t0, cycle, init_lat)
 
     N, decay, pk, lat, phase = initial_condition(nspot, step, t, diagram)
