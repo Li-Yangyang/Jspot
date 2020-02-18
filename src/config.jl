@@ -80,7 +80,7 @@ function initial_condition(Nspot::Int, step::Float64, decay_scale::Float64, t::A
     Ngroup = zeros(0)
     while sum(Ngroup) <= Nspot
         lifetime = sample_lifetime(decay_scale)
-        amax = 1e-4 * lifetime ^ 2.0
+        amax = 1e-4 * lifetime 
         append!(Ngroup, floor(Int, 330 * (amax * 100)))
         append!(decay, lifetime)
         append!(pk, 0 + 1/3 * lifetime)
@@ -111,7 +111,7 @@ function initial_condition(Nspot::Int, step::Float64, decay_scale::Float64, t::A
         if deltaN != 0
             for i in 1:1:deltaN
                 lifetime = sample_lifetime(decay_scale)
-                amax = 1e-4 * lifetime ^ 2.0
+                amax = 1e-4 * lifetime 
                 append!(Ngroup, floor(Int, 330 * (amax * 100)))
                 append!(temp, floor(Int, 330 * (amax * 100)))
                 append!(decay, lifetime)
@@ -153,7 +153,7 @@ function conf_spotmodel(filename::String, t::Array{Float64,1}; ap_evo=true)
     diagram = Diagram(t0, cycle, init_lat)
 
     N, decay, pk, lat, phase = initial_condition(nspot, step, decay_scale, t, diagram)
-    amax = decay .^ 2.0 .* 1e-4
+    amax = decay .* 1e-4
     lat = lat .* DEG2RAD
 
     Ngroup = length(decay)[1]
