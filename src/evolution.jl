@@ -25,8 +25,8 @@ function sample_lat(diagram::Diagram, t::Float64)
 end
 
 function sample_lifetime(decay_scale::Float64)
-    u = MixtureModel(Uniform.([2/24*decay_scale, 2.0*decay_scale, 30.0*decay_scale], 
-                            [2.0*decay_scale, 30.0*decay_scale, 60.0*decay_scale]),
+    u = MixtureModel(Uniform.([2/24*decay_scale, 2.0*decay_scale, 11.0*decay_scale], 
+                            [2.0*decay_scale, 11.0*decay_scale, 60.0*decay_scale]),
                             [0.5, 0.4, 0.1])
     return rand(u)
 end

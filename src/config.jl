@@ -32,7 +32,9 @@ function conf_spotmodel(filename::String)
     Q = ones(Number, nspot) .* retrieve(conf, "spots", "Q", Float64)
 
     if retrieve(conf, "spots", "decay", Bool)
-        decay = period .* 2.730 .^ abs.(rand(Normal(0, 0.5), nspot))
+        decay_scale = retrieve(conf, "spots", "decay_scale", Float64)
+        decay_offset = retrieve(conf, "spots", "decay_offset", Float64)
+        decay = period .* 2.730 .^ abs.(rand(Normal(0+decay_offset, 0.5*decay_scale), nspot))
         #multinormal distribution according to Dumusque 2016
     else
         decay = zeros(Number, nspot)
