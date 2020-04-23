@@ -51,7 +51,7 @@ function calci(SpotModel::Spot, t::Array{Float64,1}, index::Int)
     else
         spot = -1.0 .* proj .* SpotModel.cspot[index]
     end
-    fac = spot .* SpotModel.Q[index] .* SpotModel.cfac[index] .* (1 .- mu) # This may implement faculae
+    fac = -1.0 .* spot .* SpotModel.Q[index] .* SpotModel.cfac[index] .* (1 .- mu) # This may implement faculae
     dF = copy(spot .+ fac)
 
     #RV modeling

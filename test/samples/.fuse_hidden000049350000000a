@@ -8,8 +8,8 @@ incl=90.0
 
 [spots]
 nspot=1
-cspot=0.2
-cfac=0.0
-Q=0
+cspot=0
+cfac=-0.1
+Q=10.0
 decay=false
 differential=0
